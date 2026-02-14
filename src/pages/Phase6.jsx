@@ -31,19 +31,6 @@ export default function Phase6({ team, setTeam }) {
                 <div className="trophy-icon">🏆</div>
                 <h1 style={{ marginBottom: '20px' }}>Congratulations!</h1>
                 <h2 style={{ color: '#fff', marginBottom: '30px' }}>You've completed CodeHunt-2026!</h2>
-                <div style={{
-                    display: 'inline-block',
-                    padding: '20px 40px',
-                    background: 'rgba(255, 215, 0, 0.1)',
-                    border: '2px solid #FFD700',
-                    borderRadius: '15px',
-                    marginTop: '20px'
-                }}>
-                    <p style={{ color: '#FFD700', fontFamily: 'Orbitron', fontSize: '0.85rem', marginBottom: '8px' }}>
-                        📍 FINAL LOCATION
-                    </p>
-                    <h2 style={{ fontSize: '1.5rem', margin: 0, color: '#fff' }}>Basketball Court Area</h2>
-                </div>
             </div>
         )
     }
@@ -147,20 +134,6 @@ export default function Phase6({ team, setTeam }) {
                 <p style={{ fontSize: '1.3rem', color: '#fff', marginBottom: '20px' }}>
                     You have successfully completed <span style={{ color: '#FFD700' }}>CodeHunt-2026</span>!
                 </p>
-
-                <div style={{
-                    display: 'inline-block',
-                    padding: '20px 40px',
-                    background: 'rgba(255, 215, 0, 0.1)',
-                    border: '2px solid #FFD700',
-                    borderRadius: '15px',
-                    marginBottom: '30px'
-                }}>
-                    <p style={{ color: '#FFD700', fontFamily: 'Orbitron', fontSize: '0.85rem', marginBottom: '8px' }}>
-                        📍 FINAL LOCATION
-                    </p>
-                    <h2 style={{ fontSize: '1.5rem', margin: 0, color: '#fff' }}>Basketball Court Area</h2>
-                </div>
 
                 <div style={{
                     display: 'inline-block',
