@@ -882,10 +882,10 @@ app.post('/api/phase5/complete', async (req, res) => {
             Object.entries(answers).forEach(([riddleId, ans]) => {
                 const riddle = phase5Riddles.find(r => r.id === parseInt(riddleId));
                 if (riddle) {
-                    if (riddle.type === 'mcq' && ans.answer === riddle.answer) {
+                    if (riddle.type === 'mcq' && ans.answer === riddle.correctAnswer) {
                         serverScore++;
                     } else if (riddle.type === 'text' && typeof ans.answer === 'string' &&
-                        ans.answer.trim().toLowerCase() === riddle.answer.toString().trim().toLowerCase()) {
+                        riddle.acceptedAnswers.some(a => a.trim().toLowerCase() === ans.answer.trim().toLowerCase())) {
                         serverScore++;
                     }
                 }
