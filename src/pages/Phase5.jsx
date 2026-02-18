@@ -1,154 +1,15 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import { Brain, Check, X, AlertCircle, Sparkles, RotateCcw } from 'lucide-react'
 import { API_URL } from '../App'
 
-function MazePuzzle({ maze, start, end, onComplete, disabled }) {
-    const [pos, setPos] = useState({ row: start[0], col: start[1] })
-    const [trail, setTrail] = useState(new Set([`${start[0]},${start[1]}`]))
-    const [touchStart, setTouchStart] = useState(null)
-
-    const rows = maze.length
-    const cols = maze[0].length
-
-    const move = useCallback((dRow, dCol) => {
-        if (disabled) return
-        setPos(prev => {
-            const newRow = prev.row + dRow
-            const newCol = prev.col + dCol
-            if (newRow < 0 || newRow >= rows || newCol < 0 || newCol >= cols) return prev
-            if (maze[newRow][newCol] === 1) return prev
-            const key = `${newRow},${newCol}`
-            setTrail(t => new Set([...t, key]))
-            if (newRow === end[0] && newCol === end[1]) {
-                setTimeout(() => onComplete(), 300)
-            }
-            return { row: newRow, col: newCol }
-        })
-    }, [disabled, maze, rows, cols, end, onComplete])
-
-    useEffect(() => {
-        const handleKey = (e) => {
-            if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
-                e.preventDefault()
-            }
-            switch (e.key) {
-                case 'ArrowUp': move(-1, 0); break
-                case 'ArrowDown': move(1, 0); break
-                case 'ArrowLeft': move(0, -1); break
-                case 'ArrowRight': move(0, 1); break
-            }
-        }
-        window.addEventListener('keydown', handleKey)
-        return () => window.removeEventListener('keydown', handleKey)
-    }, [move])
-
-    const handleTouchStart = (e) => {
-        setTouchStart({ x: e.touches[0].clientX, y: e.touches[0].clientY })
-    }
-
-    const handleTouchEnd = (e) => {
-        if (!touchStart) return
-        const dx = e.changedTouches[0].clientX - touchStart.x
-        const dy = e.changedTouches[0].clientY - touchStart.y
-        const minSwipe = 30
-        if (Math.abs(dx) > Math.abs(dy)) {
-            if (Math.abs(dx) > minSwipe) move(0, dx > 0 ? 1 : -1)
-        } else {
-            if (Math.abs(dy) > minSwipe) move(dy > 0 ? 1 : -1, 0)
-        }
-        setTouchStart(null)
-    }
-
-    const cellSize = Math.min(36, Math.floor((window.innerWidth - 80) / cols))
-
-    return (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '15px' }}>
-            <div
-                onTouchStart={handleTouchStart}
-                onTouchEnd={handleTouchEnd}
-                style={{
-                    display: 'grid',
-                    gridTemplateColumns: `repeat(${cols}, ${cellSize}px)`,
-                    gridTemplateRows: `repeat(${rows}, ${cellSize}px)`,
-                    gap: '2px',
-                    padding: '10px',
-                    background: 'rgba(255, 215, 0, 0.1)',
-                    borderRadius: '12px',
-                    border: '2px solid rgba(255, 215, 0, 0.3)',
-                    touchAction: 'none'
-                }}
-            >
-                {maze.map((row, r) =>
-                    row.map((cell, c) => {
-                        const isPlayer = pos.row === r && pos.col === c
-                        const isStart = r === start[0] && c === start[1]
-                        const isEnd = r === end[0] && c === end[1]
-                        const isTrail = trail.has(`${r},${c}`)
-                        const isWall = cell === 1
-
-                        let bg = 'rgba(255, 255, 255, 0.05)'
-                        let border = '1px solid rgba(255, 255, 255, 0.05)'
-                        if (isWall) {
-                            bg = '#333'
-                            border = '1px solid #444'
-                        } else if (isPlayer) {
-                            bg = '#FFD700'
-                        } else if (isEnd) {
-                            bg = 'rgba(34, 197, 94, 0.4)'
-                            border = '1px solid #22c55e'
-                        } else if (isTrail) {
-                            bg = 'rgba(255, 215, 0, 0.15)'
-                        }
-
-                        return (
-                            <div key={`${r}-${c}`} style={{
-                                width: cellSize,
-                                height: cellSize,
-                                background: bg,
-                                border,
-                                borderRadius: '3px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                fontSize: cellSize * 0.5,
-                                transition: 'background 0.15s ease'
-                            }}>
-                                {isPlayer && '🟡'}
-                                {isEnd && !isPlayer && '🏁'}
-                                {isStart && !isPlayer && '▸'}
-                            </div>
-                        )
-                    })
-                )}
-            </div>
-            <div style={{ display: 'flex', gap: '5px', flexDirection: 'column', alignItems: 'center' }}>
-                <button onClick={() => move(-1, 0)} disabled={disabled} style={arrowBtnStyle}>▲</button>
-                <div style={{ display: 'flex', gap: '5px' }}>
-                    <button onClick={() => move(0, -1)} disabled={disabled} style={arrowBtnStyle}>◀</button>
-                    <button onClick={() => move(1, 0)} disabled={disabled} style={arrowBtnStyle}>▼</button>
-                    <button onClick={() => move(0, 1)} disabled={disabled} style={arrowBtnStyle}>▶</button>
-                </div>
-            </div>
-            <p style={{ color: '#b3b3b3', fontSize: '0.85rem', margin: 0 }}>
-                Use arrow keys, swipe, or tap the buttons above
-            </p>
-        </div>
-    )
-}
-
-const arrowBtnStyle = {
-    width: '44px',
-    height: '44px',
-    background: 'rgba(255, 215, 0, 0.15)',
-    border: '1px solid rgba(255, 215, 0, 0.4)',
-    borderRadius: '8px',
-    color: '#FFD700',
-    fontSize: '1.2rem',
-    cursor: 'pointer',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
-}
+const hintPoem = `I am the mind behind your mission,
+Not a person, yet I lead.
+I stand tall, I wear the organizing team's mark,
+Where ideas meet their seed.
+Find me where the second rise begins,
+On the floor that touches ground.
+Capture proof that you were here —
+And your victory is found.`
 
 export default function Phase5({ team, setTeam }) {
     const [riddles, setRiddles] = useState([])
@@ -199,7 +60,7 @@ export default function Phase5({ team, setTeam }) {
                 <div className="success-icon"><Sparkles size={60} /></div>
                 <h2 style={{ color: '#22c55e', marginBottom: '20px' }}>Phase 5 Cleared!</h2>
                 <p style={{ fontSize: '1.2rem', marginBottom: '10px' }}>
-                    You scored {score}/5. Great job!
+                    You scored {score}/{riddles.length}. Great job!
                 </p>
                 <div style={{
                     display: 'inline-block',
@@ -207,14 +68,29 @@ export default function Phase5({ team, setTeam }) {
                     background: 'rgba(255, 215, 0, 0.1)',
                     border: '3px solid #FFD700',
                     borderRadius: '20px',
-                    marginBottom: '40px'
+                    marginBottom: '30px'
                 }}>
                     <p style={{ color: '#FFD700', fontFamily: 'Orbitron', fontSize: '0.9rem', marginBottom: '10px' }}>
-                        📍 NEXT LOCATION
+                        NEXT LOCATION
                     </p>
                     <h1 style={{ fontSize: '2rem', margin: 0 }}>Basketball Court Area</h1>
                 </div>
-                <br />
+                <div style={{
+                    maxWidth: '500px',
+                    margin: '0 auto 30px',
+                    padding: '25px 30px',
+                    background: 'rgba(139, 92, 246, 0.1)',
+                    border: '2px solid rgba(139, 92, 246, 0.4)',
+                    borderRadius: '15px',
+                    textAlign: 'left'
+                }}>
+                    <p style={{ color: '#a78bfa', fontFamily: 'Orbitron', fontSize: '0.85rem', marginBottom: '15px', textAlign: 'center' }}>
+                        FINAL CLUE
+                    </p>
+                    <p style={{ whiteSpace: 'pre-line', lineHeight: '1.8', fontSize: '1.05rem', color: '#e2e8f0', fontStyle: 'italic', margin: 0 }}>
+                        {hintPoem}
+                    </p>
+                </div>
                 <p style={{ color: '#FFD700', fontSize: '1.1rem' }}>Scan the next QR code to continue.</p>
             </div>
         )
@@ -226,7 +102,7 @@ export default function Phase5({ team, setTeam }) {
                 <X size={60} style={{ color: '#ef4444', marginBottom: '20px' }} />
                 <h2 style={{ color: '#ef4444', marginBottom: '20px' }}>Phase 5 Not Passed</h2>
                 <p style={{ fontSize: '1.2rem', marginBottom: '10px' }}>
-                    You scored {score}/5.
+                    You scored {score}/{riddles.length}.
                 </p>
                 <p style={{ fontSize: '1.1rem', marginBottom: '30px', color: '#b3b3b3' }}>
                     {failMessage}
@@ -260,12 +136,29 @@ export default function Phase5({ team, setTeam }) {
                     background: 'rgba(255, 215, 0, 0.1)',
                     border: '2px solid #FFD700',
                     borderRadius: '15px',
-                    marginTop: '20px'
+                    marginTop: '20px',
+                    marginBottom: '25px'
                 }}>
                     <p style={{ color: '#FFD700', fontFamily: 'Orbitron', fontSize: '0.85rem', marginBottom: '8px' }}>
-                        📍 NEXT LOCATION
+                        NEXT LOCATION
                     </p>
                     <h2 style={{ fontSize: '1.5rem', margin: 0, color: '#fff' }}>Basketball Court Area</h2>
+                </div>
+                <div style={{
+                    maxWidth: '500px',
+                    margin: '0 auto',
+                    padding: '25px 30px',
+                    background: 'rgba(139, 92, 246, 0.1)',
+                    border: '2px solid rgba(139, 92, 246, 0.4)',
+                    borderRadius: '15px',
+                    textAlign: 'left'
+                }}>
+                    <p style={{ color: '#a78bfa', fontFamily: 'Orbitron', fontSize: '0.85rem', marginBottom: '15px', textAlign: 'center' }}>
+                        FINAL CLUE
+                    </p>
+                    <p style={{ whiteSpace: 'pre-line', lineHeight: '1.8', fontSize: '1.05rem', color: '#e2e8f0', fontStyle: 'italic', margin: 0 }}>
+                        {hintPoem}
+                    </p>
                 </div>
             </div>
         )
@@ -345,7 +238,7 @@ export default function Phase5({ team, setTeam }) {
                 setTeam(teamData)
             } else {
                 setScore(data.score || 0)
-                setFailMessage(data.message || 'Minimum 3/5 required to pass. Try again!')
+                setFailMessage(data.message || 'All challenges must be correct to pass. Try again!')
                 setFailed(true)
             }
         } catch (err) {
@@ -363,7 +256,7 @@ export default function Phase5({ team, setTeam }) {
         return (
             <div className="container" style={{ textAlign: 'center', padding: '60px 0' }}>
                 <div className="spinner" />
-                <p>Loading riddles...</p>
+                <p>Loading challenges...</p>
             </div>
         )
     }
@@ -401,18 +294,10 @@ export default function Phase5({ team, setTeam }) {
 
             <div className="card" style={{ position: 'relative', overflow: 'hidden' }}>
                 <div style={{ marginBottom: '30px' }}>
-                    <h2 style={{ fontSize: '1.4rem', lineHeight: '1.6' }}>{riddle.riddle}</h2>
+                    <p style={{ fontSize: '1.1rem', lineHeight: '1.8', whiteSpace: 'pre-line', fontFamily: 'monospace' }}>{riddle.riddle}</p>
                 </div>
 
-                {riddle.type === 'maze' ? (
-                    <MazePuzzle
-                        maze={riddle.maze}
-                        start={riddle.start}
-                        end={riddle.end}
-                        disabled={submitting || !!answers[riddle.id]}
-                        onComplete={() => checkAnswer('completed')}
-                    />
-                ) : riddle.type === 'mcq' ? (
+                {riddle.type === 'mcq' ? (
                     <div className="quiz-options">
                         {riddle.options.map((option, idx) => (
                             <button

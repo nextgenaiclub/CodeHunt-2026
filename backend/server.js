@@ -394,52 +394,37 @@ const phase4Hints = [
     "Even-indexed elements are arr[0], arr[2], arr[4] = 10, 30, 50"
 ];
 
-// Phase 5 Riddles - 1st Year Engineering Level
+// Phase 5 Riddles - 3 Challenges (ALL required to pass)
 const phase5Riddles = [
     {
         id: 1,
-        type: "text",
-        riddle: "I mark the end of every string in C, yet I am worth nothing. What character am I? (e.g. '\\n')",
-        acceptedAnswers: ["\\0", "null character", "null terminator", "null", "'\\0'"]
+        type: "mcq",
+        riddle: "Study the maze below and find the ONLY path from S (Start) to E (Exit). Walls (#) block movement. You can only move Right (→) or Down (↓).\n\n    C0  C1  C2  C3  C4  C5\nR0: [S] [.] [#] [.] [.] [.]\nR1: [#] [.] [.] [.] [#] [.]\nR2: [#] [#] [#] [.] [.] [.]\nR3: [.] [.] [#] [#] [#] [.]\nR4: [#] [.] [.] [.] [#] [.]\nR5: [#] [#] [#] [.] [.] [E]\n\nWhich sequence of moves leads from S to E?",
+        options: [
+            "→ ↓ → → ↓ ↓ → → ↓ ↓",
+            "→ ↓ → → ↓ → → ↓ ↓ ↓",
+            "→ ↓ → ↓ → → ↓ ↓ → ↓",
+            "→ ↓ → → ↓ → ↓ → ↓ ↓"
+        ],
+        correctAnswer: 1
     },
     {
         id: 2,
         type: "mcq",
-        riddle: "I follow the Last-In, First-Out (LIFO) principle. Push me, Pop me. What Data Structure am I?",
-        options: ["Queue", "Array", "Stack", "Linked List"],
-        correctAnswer: 2
+        riddle: "LOGICAL DEDUCTION: Each CS Module is assigned exactly one function.\n\nCS Modules:\n  1. AlgoCore\n  2. DataNest\n  3. LogicFlow\n  4. ByteWorks\n\nFunctions:\n  A. Algorithms\n  B. Data Structures\n  C. Memory Management\n  D. Control Flow\n\nClues:\n  • DataNest (2) is assigned to Control Flow (D)\n  • AlgoCore (1) is assigned to Data Structures (B)\n  • ByteWorks (4) is NOT assigned to B or D\n  • LogicFlow (3) is assigned to Algorithms (A)\n\nWhat is the correct mapping?",
+        options: [
+            "AlgoCore→A, DataNest→D, LogicFlow→B, ByteWorks→C",
+            "AlgoCore→B, DataNest→D, LogicFlow→A, ByteWorks→C",
+            "AlgoCore→B, DataNest→C, LogicFlow→A, ByteWorks→D",
+            "AlgoCore→C, DataNest→D, LogicFlow→A, ByteWorks→B"
+        ],
+        correctAnswer: 1
     },
     {
         id: 3,
-        type: "mcq",
-        riddle: "If Input A is 1 and Input B is 1, my output is 0. But if only one is 1, I say 1. Which Logic Gate am I?",
-        options: ["AND", "OR", "XOR", "NAND"],
-        correctAnswer: 2
-    },
-    {
-        id: 4,
         type: "text",
-        riddle: "In C, if you declare int arr[5], what is the index of the very last element?",
-        acceptedAnswers: ["4", "four", "index 4"]
-    },
-    {
-        id: 5,
-        type: "maze",
-        riddle: "Navigate through the maze! Use arrow keys or swipe to reach the exit.",
-        maze: [
-            [0,0,1,1,1,1,1,1,1],
-            [1,0,1,0,0,0,0,0,1],
-            [1,0,1,0,1,1,1,0,1],
-            [1,0,0,0,1,0,0,0,1],
-            [1,1,1,0,1,0,1,1,1],
-            [1,0,0,0,0,0,1,0,1],
-            [1,0,1,1,1,0,1,0,1],
-            [1,0,0,0,1,0,0,0,0],
-            [1,1,1,1,1,1,1,1,0]
-        ],
-        start: [0, 0],
-        end: [8, 8],
-        acceptedAnswers: ["completed"]
+        riddle: "PATTERN RECOGNITION\n\nStep 1 — Given Values:\n  A = 5,  B = 4,  C = 3,  D = 6\n\nStep 2 — Solve these expressions in order:\n  1) (3 × D) + 1\n  2) (4 × A)\n  3) (B − 3)\n  4) (2 × A) + 4\n  5) (C + 1)\n  6) (1 × A)\n  7) (1 × A)\n\nStep 3 — Convert each result to a letter using A1–Z26\n  (A=1, B=2, C=3 ... Z=26)\n\nWhat is the decoded keyword?",
+        acceptedAnswers: ["standee", "STANDEE", "Standee"]
     }
 ];
 
@@ -844,10 +829,7 @@ app.get('/api/phase5/riddles', (req, res) => {
         id: r.id,
         type: r.type,
         riddle: r.riddle,
-        options: r.options,
-        maze: r.maze,
-        start: r.start,
-        end: r.end
+        options: r.options
     }));
     res.json(riddlesWithoutAnswers);
 });
@@ -874,10 +856,8 @@ app.post('/api/phase5/answer', async (req, res) => {
         let isCorrect = false;
         if (riddle.type === 'mcq') {
             isCorrect = answer === riddle.correctAnswer;
-        } else if (riddle.type === 'maze') {
-            isCorrect = answer === 'completed';
         } else {
-            isCorrect = riddle.acceptedAnswers.includes(answer.toLowerCase().trim());
+            isCorrect = riddle.acceptedAnswers.some(a => a.trim().toLowerCase() === answer.toString().toLowerCase().trim());
         }
 
         res.json({
@@ -906,13 +886,12 @@ app.post('/api/phase5/complete', async (req, res) => {
 
         // Recalculate score server-side for accuracy
         let serverScore = 0;
+        const totalRiddles = phase5Riddles.length;
         if (answers && typeof answers === 'object') {
             Object.entries(answers).forEach(([riddleId, ans]) => {
                 const riddle = phase5Riddles.find(r => r.id === parseInt(riddleId));
                 if (riddle) {
                     if (riddle.type === 'mcq' && ans.answer === riddle.correctAnswer) {
-                        serverScore++;
-                    } else if (riddle.type === 'maze' && ans.answer === 'completed') {
                         serverScore++;
                     } else if (riddle.type === 'text' && typeof ans.answer === 'string' &&
                         riddle.acceptedAnswers.some(a => a.trim().toLowerCase() === ans.answer.trim().toLowerCase())) {
@@ -922,13 +901,14 @@ app.post('/api/phase5/complete', async (req, res) => {
             });
         }
 
-        const MIN_SCORE = 3;
-        if (serverScore < MIN_SCORE) {
-            console.log(`🧩 Phase 5 - Team: ${team.teamName} failed with ${serverScore}/5 (min ${MIN_SCORE} required)`);
+        // ALL challenges must be correct
+        if (serverScore < totalRiddles) {
+            console.log(`🧩 Phase 5 - Team: ${team.teamName} failed with ${serverScore}/${totalRiddles} (ALL required)`);
             return res.json({
                 success: false,
                 score: serverScore,
-                message: `You scored ${serverScore}/5. Minimum ${MIN_SCORE}/5 required to pass. Try again!`
+                total: totalRiddles,
+                message: `You scored ${serverScore}/${totalRiddles}. All challenges must be correct to pass. Try again!`
             });
         }
 
@@ -939,7 +919,7 @@ app.post('/api/phase5/complete', async (req, res) => {
             currentPhase: 6
         });
 
-        console.log(`🧩 Phase 5 - Team: ${team.teamName} completed with ${serverScore}/5!`);
+        console.log(`🧩 Phase 5 - Team: ${team.teamName} completed with ${serverScore}/${totalRiddles}!`);
 
         res.json({
             success: true,
