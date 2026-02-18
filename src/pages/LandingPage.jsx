@@ -72,7 +72,7 @@ export default function LandingPage({ team, setTeam }) {
                 <div style={{ display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '30px' }}>
                     {!team && (
                         <>
-                            <button onClick={() => navigate('/phase1')} className="btn btn-primary btn-large">
+                            <button onClick={() => navigate('/register')} className="btn btn-primary btn-large">
                                 Register New Team
                             </button>
                             <button onClick={() => setShowResume(!showResume)} className="btn btn-secondary btn-large">
@@ -93,7 +93,7 @@ export default function LandingPage({ team, setTeam }) {
                                     if (window.confirm('Are you sure? This will clear your current session and let you register a new team.')) {
                                         localStorage.removeItem('codehunt_team');
                                         setTeam(null);
-                                        navigate('/phase1');
+                                        navigate('/register');
                                     }
                                 }}
                                 className="btn btn-secondary btn-large"

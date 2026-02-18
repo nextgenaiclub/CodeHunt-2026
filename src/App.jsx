@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import LandingPage from './pages/LandingPage'
+import Register from './pages/Register'
 import Phase1 from './pages/Phase1'
 import Phase2 from './pages/Phase2'
 import Phase3 from './pages/Phase3'
@@ -56,6 +57,7 @@ function App() {
     <Layout team={team}>
       <Routes>
         <Route path="/" element={<LandingPage team={team} setTeam={setTeam} />} />
+        <Route path="/register" element={<Register team={team} setTeam={setTeam} />} />
         <Route path="/phase1" element={<Phase1 team={team} setTeam={setTeam} />} />
         <Route path="/phase2" element={<Phase2 team={team} setTeam={setTeam} />} />
         <Route path="/phase3" element={<Phase3 team={team} setTeam={setTeam} />} />

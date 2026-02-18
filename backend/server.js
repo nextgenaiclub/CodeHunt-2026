@@ -447,10 +447,10 @@ const phase5Riddles = [
 // Register new team (Phase 1)
 app.post('/api/teams/register', async (req, res) => {
     try {
-        const { teamName, teamLeader, teamMembers, email, driveLink, aiPrompt } = req.body;
+        const { teamName, teamLeader, teamMembers, email, theme } = req.body;
 
         // Validate required fields
-        if (!teamName || !teamLeader || !teamMembers || !email || !driveLink || !aiPrompt) {
+        if (!teamName || !teamLeader || !teamMembers || !email || !theme) {
             return res.status(400).json({ error: 'All fields are required' });
         }
 
@@ -460,17 +460,19 @@ app.post('/api/teams/register', async (req, res) => {
             return res.status(400).json({ error: 'Invalid email format' });
         }
 
-        // Validate drive link
-        if (!driveLink.includes('drive.google.com')) {
-            return res.status(400).json({ error: 'Please provide a valid Google Drive link' });
+        // Validate theme
+        const validThemes = [
+            'AI in Healthcare',
+            'Generative AI & Creativity',
+            'Computer Science Fundamentals',
+            'AI in Education & Learning',
+            'AI in Smart Cities'
+        ];
+        if (!validThemes.includes(theme)) {
+            return res.status(400).json({ error: 'Please select a valid theme' });
         }
 
-        // Validate AI prompt contains VU2050
-        if (!aiPrompt.toUpperCase().includes('VU2050')) {
-            return res.status(400).json({ error: 'AI Prompt must contain keyword "VU2050"' });
-        }
-
-        // Validate team members (2-4)
+        // Validate team members (3-4)
         const members = teamMembers.split(',').map(m => m.trim()).filter(m => m);
         if (members.length < 3 || members.length > 4) {
             return res.status(400).json({ error: 'Team must have 3-4 members' });
@@ -491,36 +493,83 @@ app.post('/api/teams/register', async (req, res) => {
             teamLeader,
             teamMembers: members,
             email,
-            phase1: {
-                driveLink,
-                aiPrompt,
-                timestamp: now,
-                completed: true
-            },
+            theme,
+            phase1: { completed: false },
             phase2: { attempts: 0, lastScore: 0, completed: false },
             phase3: { completed: false },
             phase4: { attempts: 0, completed: false },
             phase5: { completed: false },
             phase6: { completed: false },
             startTime: now,
-            currentPhase: 2,
+            currentPhase: 1,
             createdAt: now
         };
 
         await createTeam(teamId, team);
 
-        console.log(`✅ Team registered: ${teamName} ${useFirebase ? '(Firebase)' : '(Memory)'}`);
+        console.log(`✅ Team registered: ${teamName} (Theme: ${theme}) ${useFirebase ? '(Firebase)' : '(Memory)'}`);
 
         res.json({
             success: true,
             message: 'Registration successful!',
             teamId,
             teamName: team.teamName,
-            currentPhase: 2
+            currentPhase: 1
         });
     } catch (error) {
         console.error('Registration error:', error);
         res.status(500).json({ error: 'Server error during registration' });
+    }
+});
+
+// Submit Phase 1 (AI Image Generation)
+app.post('/api/phase1/submit', async (req, res) => {
+    try {
+        const { teamId, driveLink, aiPrompt } = req.body;
+
+        if (!teamId || !aiPrompt) {
+            return res.status(400).json({ error: 'Team ID and AI prompt are required' });
+        }
+
+        const team = await getTeamById(teamId);
+        if (!team) {
+            return res.status(404).json({ error: 'Team not found' });
+        }
+
+        if (team.phase1?.completed) {
+            return res.status(400).json({ error: 'Phase 1 already completed' });
+        }
+
+        if (team.currentPhase !== 1) {
+            return res.status(400).json({ error: 'Not on Phase 1' });
+        }
+
+        // Validate AI prompt contains VU2050
+        if (!aiPrompt.toUpperCase().includes('VU2050')) {
+            return res.status(400).json({ error: 'AI Prompt must contain keyword "VU2050"' });
+        }
+
+        const now = new Date().toISOString();
+
+        await saveTeam(teamId, {
+            phase1: {
+                driveLink: driveLink || '',
+                aiPrompt,
+                timestamp: now,
+                completed: true
+            },
+            currentPhase: 2
+        });
+
+        console.log(`🎨 Phase 1 - Team: ${team.teamName} submitted AI image!`);
+
+        res.json({
+            success: true,
+            message: 'Phase 1 completed!'
+        });
+    } catch (error) {
+        console.error('Phase 1 submit error:', error.message);
+        res.status(500).json({ error: 'Server error: ' + error.message });
     }
 });
 

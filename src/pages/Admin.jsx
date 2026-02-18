@@ -41,12 +41,13 @@ export default function Admin() {
     }
 
     const exportCSV = () => {
-        const headers = ['Team Name', 'Leader', 'Members', 'Email', 'Current Phase', 'Phase 1', 'Phase 2', 'Phase 3', 'Phase 4', 'Phase 5', 'Phase 6', 'Total Time']
+        const headers = ['Team Name', 'Leader', 'Members', 'Email', 'Theme', 'Current Phase', 'Phase 1', 'Phase 2', 'Phase 3', 'Phase 4', 'Phase 5', 'Phase 6', 'Total Time']
         const rows = teams.map(t => [
             t.teamName,
             t.teamLeader,
             t.teamMembers?.join('; '),
             t.email,
+            t.theme || '-',
             t.currentPhase,
             t.phase1?.completed ? 'Yes' : 'No',
             t.phase2?.completed ? `Yes (${t.phase2.lastScore || t.phase2.scores?.slice(-1)[0] || 0}/10)` : 'No',
@@ -155,6 +156,7 @@ export default function Admin() {
                                 <th style={thStyle}>Team</th>
                                 <th style={thStyle}>Leader</th>
                                 <th style={thStyle}>Email</th>
+                                <th style={thStyle}>Theme</th>
                                 <th style={thStyle}>Phase</th>
                                 <th style={thStyle}>Status</th>
                                 <th style={thStyle}>Actions</th>
@@ -167,6 +169,7 @@ export default function Admin() {
                                         <td style={tdStyle}>{team.teamName}</td>
                                         <td style={tdStyle}>{team.teamLeader}</td>
                                         <td style={tdStyle}>{team.email}</td>
+                                        <td style={tdStyle}>{team.theme || '-'}</td>
                                         <td style={tdStyle}>
                                             <span style={{
                                                 background: 'rgba(255, 215, 0, 0.2)',
@@ -192,7 +195,7 @@ export default function Admin() {
                                     </tr>
                                     {expandedTeam === team.teamId && (
                                         <tr>
-                                            <td colSpan={6} style={{ padding: '20px', background: '#1a1a1a' }}>
+                                            <td colSpan={7} style={{ padding: '20px', background: '#1a1a1a' }}>
                                                 <TeamDetails team={team} />
                                             </td>
                                         </tr>
@@ -267,6 +270,7 @@ function TeamDetails({ team }) {
             <div>
                 <h4 style={{ color: '#FFD700', marginBottom: '10px' }}>Team Info</h4>
                 <p><strong>Members:</strong> {team.teamMembers?.join(', ')}</p>
+                <p><strong>Theme:</strong> {team.theme || '-'}</p>
                 <p><strong>Registered:</strong> {new Date(team.createdAt).toLocaleString()}</p>
                 {team.totalTimeSeconds && (
                     <p><strong>Total Time:</strong> {Math.floor(team.totalTimeSeconds / 60)}m {team.totalTimeSeconds % 60}s</p>

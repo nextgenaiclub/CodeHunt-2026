@@ -8,16 +8,23 @@ export default function Phase1({ team, setTeam }) {
     const [errors, setErrors] = useState({})
 
     const [formData, setFormData] = useState({
-        teamName: '',
-        teamLeader: '',
-        teamMembers: '',
-        email: '',
         driveLink: 'https://drive.google.com/drive/u/4/folders/1pPC6zKBVIxQbmEVOz1as6KyU7NR021Rg',
         aiPrompt: ''
     })
 
+    // Not registered
+    if (!team || !team.teamId) {
+        return (
+            <div className="container" style={{ textAlign: 'center', padding: '60px 0' }}>
+                <AlertCircle size={60} style={{ color: '#FFD700', marginBottom: '20px' }} />
+                <h2>Please Register First</h2>
+                <p>You need to register your team before accessing Phase 1.</p>
+            </div>
+        )
+    }
+
     // If already completed
-    if (team && team.currentPhase > 1) {
+    if (team.currentPhase > 1) {
         return (
             <div className="container" style={{ textAlign: 'center', padding: '60px 0' }}>
                 <div className="success-icon">
@@ -34,7 +41,7 @@ export default function Phase1({ team, setTeam }) {
                     marginTop: '20px'
                 }}>
                     <p style={{ color: '#FFD700', fontFamily: 'Orbitron', fontSize: '0.85rem', marginBottom: '8px' }}>
-                        📍 NEXT LOCATION
+                        NEXT LOCATION
                     </p>
                     <h2 style={{ fontSize: '1.5rem', margin: 0, color: '#fff' }}>Eco Campus Wall</h2>
                 </div>
@@ -44,17 +51,6 @@ export default function Phase1({ team, setTeam }) {
 
     const validateForm = () => {
         const newErrors = {}
-
-        if (!formData.teamName.trim()) newErrors.teamName = 'Team name is required'
-        if (!formData.teamLeader.trim()) newErrors.teamLeader = 'Team leader name is required'
-
-        const members = formData.teamMembers.split(',').map(m => m.trim()).filter(m => m)
-        if (members.length < 3 || members.length > 4) {
-            newErrors.teamMembers = 'Must have 3-4 team members (comma-separated)'
-        }
-
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-        if (!emailRegex.test(formData.email)) newErrors.email = 'Invalid email format'
 
         if (!formData.aiPrompt.toUpperCase().includes('VU2050')) {
             newErrors.aiPrompt = 'Prompt must contain keyword "VU2050"'
@@ -71,10 +67,14 @@ export default function Phase1({ team, setTeam }) {
         setLoading(true)
 
         try {
-            const res = await fetch(`${API_URL}/teams/register`, {
+            const res = await fetch(`${API_URL}/phase1/submit`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData)
+                body: JSON.stringify({
+                    teamId: team.teamId,
+                    driveLink: formData.driveLink,
+                    aiPrompt: formData.aiPrompt
+                })
             })
 
             const data = await res.json()
@@ -85,11 +85,11 @@ export default function Phase1({ team, setTeam }) {
                 return
             }
 
-            // Fetch full team data
-            const teamRes = await fetch(`${API_URL}/teams/${formData.teamName}`)
+            // Refresh team data
+            const teamRes = await fetch(`${API_URL}/teams/${team.teamName}`)
             const teamData = await teamRes.json()
 
-            setTeam(teamData)
+            if (teamRes.ok) setTeam(teamData)
             setSuccess(true)
         } catch (err) {
             setErrors({ submit: 'Failed to connect to server. Make sure backend is running.' })
@@ -112,8 +112,8 @@ export default function Phase1({ team, setTeam }) {
                 <div className="success-icon">
                     <Check size={60} />
                 </div>
-                <h2 style={{ color: '#22c55e', marginBottom: '20px' }}>Registration Successful!</h2>
-                <p>Welcome to CodeHunt-2026, {formData.teamName}!</p>
+                <h2 style={{ color: '#22c55e', marginBottom: '20px' }}>Phase 1 Complete!</h2>
+                <p>Great work, {team.teamName}!</p>
                 <div style={{
                     display: 'inline-block',
                     padding: '20px 40px',
@@ -124,7 +124,7 @@ export default function Phase1({ team, setTeam }) {
                     marginBottom: '20px'
                 }}>
                     <p style={{ color: '#FFD700', fontFamily: 'Orbitron', fontSize: '0.85rem', marginBottom: '8px' }}>
-                        📍 NEXT LOCATION
+                        NEXT LOCATION
                     </p>
                     <h2 style={{ fontSize: '1.5rem', margin: 0, color: '#fff' }}>Eco Campus Wall</h2>
                 </div>
@@ -145,7 +145,7 @@ export default function Phase1({ team, setTeam }) {
                     </p>
                     <h2 style={{ color: '#fff', marginTop: '10px' }}>"Vishwakarma University in 2050"</h2>
                     <p style={{ fontSize: '1rem', marginTop: '10px', color: '#a78bfa' }}>
-                        Theme: Computer Science Fundamentals
+                        Team: {team.teamName} | Theme: {team.theme}
                     </p>
                 </div>
 
@@ -163,9 +163,9 @@ export default function Phase1({ team, setTeam }) {
                     </ul>
                 </div>
 
-                {/* Registration Form */}
+                {/* Submission Form */}
                 <form onSubmit={handleSubmit} className="card">
-                    <h3 style={{ marginBottom: '25px' }}>Team Registration & Submission</h3>
+                    <h3 style={{ marginBottom: '25px' }}>Submit Your AI Image</h3>
 
                     {errors.submit && (
                         <div style={{ background: 'rgba(239, 68, 68, 0.1)', border: '1px solid #ef4444', borderRadius: '8px', padding: '15px', marginBottom: '20px' }}>
@@ -173,58 +173,6 @@ export default function Phase1({ team, setTeam }) {
                             {errors.submit}
                         </div>
                     )}
-
-                    <div className="form-group">
-                        <label className="form-label">Team Name *</label>
-                        <input
-                            type="text"
-                            name="teamName"
-                            className="form-input"
-                            placeholder="Enter unique team name"
-                            value={formData.teamName}
-                            onChange={handleChange}
-                        />
-                        {errors.teamName && <p className="form-error">{errors.teamName}</p>}
-                    </div>
-
-                    <div className="form-group">
-                        <label className="form-label">Team Leader Name *</label>
-                        <input
-                            type="text"
-                            name="teamLeader"
-                            className="form-input"
-                            placeholder="Enter team leader's full name"
-                            value={formData.teamLeader}
-                            onChange={handleChange}
-                        />
-                        {errors.teamLeader && <p className="form-error">{errors.teamLeader}</p>}
-                    </div>
-
-                    <div className="form-group">
-                        <label className="form-label">Team Members (3-4 members, comma-separated) *</label>
-                        <input
-                            type="text"
-                            name="teamMembers"
-                            className="form-input"
-                            placeholder="e.g., John Doe, Jane Smith, Alex Johnson"
-                            value={formData.teamMembers}
-                            onChange={handleChange}
-                        />
-                        {errors.teamMembers && <p className="form-error">{errors.teamMembers}</p>}
-                    </div>
-
-                    <div className="form-group">
-                        <label className="form-label">Email / Contact *</label>
-                        <input
-                            type="email"
-                            name="email"
-                            className="form-input"
-                            placeholder="Enter email address"
-                            value={formData.email}
-                            onChange={handleChange}
-                        />
-                        {errors.email && <p className="form-error">{errors.email}</p>}
-                    </div>
 
                     <div className="form-group">
                         <label className="form-label">Upload Your Generated Image Here *</label>
@@ -245,7 +193,7 @@ export default function Phase1({ team, setTeam }) {
                                 fontSize: '1rem'
                             }}
                         >
-                            📁 Click Here to Upload Image to Google Drive
+                            Click Here to Upload Image to Google Drive
                         </a>
                     </div>
 
@@ -265,7 +213,7 @@ export default function Phase1({ team, setTeam }) {
                     </div>
 
                     <button type="submit" className="btn btn-primary btn-large" disabled={loading} style={{ width: '100%', marginTop: '20px' }}>
-                        {loading ? 'Submitting...' : 'Submit Registration'}
+                        {loading ? 'Submitting...' : 'Submit Phase 1'}
                     </button>
                 </form>
             </div>
