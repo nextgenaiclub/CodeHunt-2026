@@ -935,7 +935,7 @@ app.post('/api/phase5/complete', async (req, res) => {
 // Submit Phase 6 (Final)
 app.post('/api/phase6/submit', upload.none(), async (req, res) => {
     try {
-        const { teamId, locationAnswer, driveLink } = req.body;
+        const { teamId, locationAnswer } = req.body;
 
         const team = await getTeamById(teamId);
         if (!team) {
@@ -952,13 +952,13 @@ app.post('/api/phase6/submit', upload.none(), async (req, res) => {
 
         await saveTeam(teamId, {
             phase6: {
-                driveLink: driveLink || '',
+                locationAnswer: locationAnswer || '',
                 completed: true
             },
             currentPhase: 7 // Completed
         });
 
-        console.log(`🏆 COMPLETED - Team: ${team.teamName} | Drive: ${driveLink || 'none'}`);
+        console.log(`🏆 COMPLETED - Team: ${team.teamName} | Location: ${locationAnswer || 'none'}`);
 
         res.json({
             success: true,

@@ -1,19 +1,16 @@
-import { useState, useRef } from 'react'
-import { MapPin, Check, AlertCircle, Upload, Trophy, Clock, X } from 'lucide-react'
+import { useState } from 'react'
+import { MapPin, AlertCircle, Clock, Upload } from 'lucide-react'
 import Confetti from 'react-confetti'
 import { API_URL } from '../App'
 
+const DRIVE_FOLDER_URL = 'https://drive.google.com/drive/u/4/folders/1f8Xltto4DgaZB3YfnCiuncOqdUQs7Ffk'
+
 export default function Phase6({ team, setTeam }) {
-    const fileInputRef = useRef(null)
-    const [photo, setPhoto] = useState(null)
-    const [photoPreview, setPhotoPreview] = useState(null)
     const [location, setLocation] = useState('')
-    const [driveLink, setDriveLink] = useState('')
     const [loading, setLoading] = useState(false)
     const [completed, setCompleted] = useState(false)
     const [finalData, setFinalData] = useState(null)
     const [error, setError] = useState('')
-    const [dragOver, setDragOver] = useState(false)
 
     // Redirect checks
     if (!team) {
@@ -46,39 +43,9 @@ export default function Phase6({ team, setTeam }) {
         )
     }
 
-    const handleFileSelect = (file) => {
-        if (!file) return
-
-        const validTypes = ['image/jpeg', 'image/jpg', 'image/png']
-        if (!validTypes.includes(file.type)) {
-            setError('Only .jpg, .jpeg, and .png files are allowed')
-            return
-        }
-
-        if (file.size > 5 * 1024 * 1024) {
-            setError('File size must be less than 5MB')
-            return
-        }
-
-        setError('')
-        setPhoto(file)
-        setPhotoPreview(URL.createObjectURL(file))
-    }
-
-    const handleDrop = (e) => {
-        e.preventDefault()
-        setDragOver(false)
-        const file = e.dataTransfer.files[0]
-        handleFileSelect(file)
-    }
-
     const handleSubmit = async () => {
         if (!location.trim()) {
             setError('Please enter the location you found')
-            return
-        }
-        if (!driveLink.trim()) {
-            setError('Please paste your Google Drive photo link')
             return
         }
 
@@ -91,8 +58,7 @@ export default function Phase6({ team, setTeam }) {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     teamId: team.teamId,
-                    locationAnswer: location,
-                    driveLink: driveLink
+                    locationAnswer: location
                 })
             })
             const data = await res.json()
@@ -237,19 +203,29 @@ export default function Phase6({ team, setTeam }) {
                     </div>
                 )}
 
-                {/* Drive Link for Photo Upload */}
-                <div className="form-group" style={{ marginBottom: '20px' }}>
-                    <label className="form-label">Google Drive Photo Link</label>
-                    <p style={{ color: '#b3b3b3', fontSize: '0.9rem', marginBottom: '10px' }}>
-                        Upload your team photo to Google Drive and paste the sharing link below.
+                {/* Upload Photo to Drive Folder */}
+                <div style={{ marginBottom: '20px' }}>
+                    <label className="form-label">Upload Team Photo</label>
+                    <p style={{ color: '#b3b3b3', fontSize: '0.9rem', marginBottom: '15px' }}>
+                        Upload your team photo to the shared Google Drive folder, then submit your location below.
                     </p>
-                    <input
-                        type="url"
-                        className="form-input"
-                        placeholder="Paste your Google Drive photo link here..."
-                        value={driveLink}
-                        onChange={(e) => setDriveLink(e.target.value)}
-                    />
+                    <a
+                        href={DRIVE_FOLDER_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn btn-primary"
+                        style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '10px',
+                            padding: '14px 30px',
+                            fontSize: '1rem',
+                            textDecoration: 'none'
+                        }}
+                    >
+                        <Upload size={20} />
+                        Open Drive Folder to Upload Photo
+                    </a>
                 </div>
             </div>
 
