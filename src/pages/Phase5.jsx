@@ -191,10 +191,11 @@ export default function Phase5({ team, setTeam }) {
             })
             const data = await res.json()
 
-            setAnswers(prev => ({
-                ...prev,
+            const updatedAnswers = {
+                ...answers,
                 [riddle.id]: { answer, correct: data.correct }
-            }))
+            }
+            setAnswers(updatedAnswers)
 
             if (data.correct) {
                 setScore(prev => prev + 1)
@@ -206,7 +207,7 @@ export default function Phase5({ team, setTeam }) {
                     setCurrentRiddle(curr => curr + 1)
                     setTextAnswer('')
                 } else {
-                    submitPhaseCompletion()
+                    submitPhaseCompletion(updatedAnswers)
                 }
                 setSubmitting(false)
             }, 1000)
@@ -217,14 +218,14 @@ export default function Phase5({ team, setTeam }) {
         }
     }
 
-    const submitPhaseCompletion = async () => {
+    const submitPhaseCompletion = async (allAnswers) => {
         try {
             const res = await fetch(`${API_URL}/phase5/complete`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     teamId: team.teamId,
-                    answers
+                    answers: allAnswers
                 })
             })
 
