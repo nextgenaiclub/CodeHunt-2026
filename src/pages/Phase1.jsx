@@ -8,7 +8,7 @@ export default function Phase1({ team, setTeam }) {
     const [errors, setErrors] = useState({})
 
     const [formData, setFormData] = useState({
-        driveLink: 'https://drive.google.com/drive/u/4/folders/1pPC6zKBVIxQbmEVOz1as6KyU7NR021Rg',
+        driveLink: 'https://drive.google.com/drive/u/0/folders/1f8Xltto4DgaZB3YfnCiuncOqdUQs7Ffk',
         aiPrompt: ''
     })
 
@@ -177,7 +177,7 @@ export default function Phase1({ team, setTeam }) {
                     <div className="form-group">
                         <label className="form-label">Upload Your Generated Image Here *</label>
                         <a
-                            href="https://drive.google.com/drive/u/4/folders/1pPC6zKBVIxQbmEVOz1as6KyU7NR021Rg"
+                            href="https://drive.google.com/drive/u/0/folders/1f8Xltto4DgaZB3YfnCiuncOqdUQs7Ffk"
                             target="_blank"
                             rel="noopener noreferrer"
                             style={{

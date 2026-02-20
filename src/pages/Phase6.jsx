@@ -3,7 +3,7 @@ import { MapPin, AlertCircle, Clock, Upload } from 'lucide-react'
 import Confetti from 'react-confetti'
 import { API_URL } from '../App'
 
-const DRIVE_FOLDER_URL = 'https://drive.google.com/drive/u/4/folders/1f8Xltto4DgaZB3YfnCiuncOqdUQs7Ffk'
+const DRIVE_FOLDER_URL = 'https://drive.google.com/drive/u/0/folders/1f8Xltto4DgaZB3YfnCiuncOqdUQs7Ffk'
 
 export default function Phase6({ team, setTeam }) {
     const [location, setLocation] = useState('')
