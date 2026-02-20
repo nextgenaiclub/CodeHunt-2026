@@ -23,6 +23,36 @@ export default function Register({ team, setTeam }) {
         theme: ''
     })
 
+    if (success) {
+        return (
+            <div className="container" style={{ textAlign: 'center', padding: '60px 0' }}>
+                <div className="success-icon"><Check size={60} /></div>
+                <h2 style={{ color: '#22c55e', marginBottom: '20px' }}>Registration Successful!</h2>
+                <p style={{ fontSize: '1.1rem', marginBottom: '5px' }}>
+                    Welcome to CodeHunt-2026, <strong>{formData.teamName}</strong>!
+                </p>
+                <p style={{ fontSize: '1rem', marginBottom: '20px', color: '#b3b3b3' }}>
+                    Theme: {formData.theme}
+                </p>
+                <div style={{
+                    display: 'inline-block',
+                    padding: '20px 40px',
+                    background: 'rgba(255, 215, 0, 0.1)',
+                    border: '2px solid #FFD700',
+                    borderRadius: '15px',
+                    marginBottom: '20px'
+                }}>
+                    <p style={{ color: '#FFD700', fontFamily: 'Orbitron', fontSize: '0.85rem', marginBottom: '8px' }}>
+                        NEXT LOCATION
+                    </p>
+                    <h2 style={{ fontSize: '1.5rem', margin: 0, color: '#fff' }}>Eco Campus Wall</h2>
+                </div>
+                <br />
+                <p style={{ marginTop: '10px', color: '#FFD700' }}>Scan the Phase 1 QR code to continue.</p>
+            </div>
+        )
+    }
+
     // If already registered
     if (team && team.teamId) {
         return (
@@ -93,36 +123,6 @@ export default function Register({ team, setTeam }) {
         if (errors[name]) {
             setErrors(prev => ({ ...prev, [name]: '' }))
         }
-    }
-
-    if (success) {
-        return (
-            <div className="container" style={{ textAlign: 'center', padding: '60px 0' }}>
-                <div className="success-icon"><Check size={60} /></div>
-                <h2 style={{ color: '#22c55e', marginBottom: '20px' }}>Registration Successful!</h2>
-                <p style={{ fontSize: '1.1rem', marginBottom: '5px' }}>
-                    Welcome to CodeHunt-2026, <strong>{formData.teamName}</strong>!
-                </p>
-                <p style={{ fontSize: '1rem', marginBottom: '20px', color: '#b3b3b3' }}>
-                    Theme: {formData.theme}
-                </p>
-                <div style={{
-                    display: 'inline-block',
-                    padding: '20px 40px',
-                    background: 'rgba(255, 215, 0, 0.1)',
-                    border: '2px solid #FFD700',
-                    borderRadius: '15px',
-                    marginBottom: '20px'
-                }}>
-                    <p style={{ color: '#FFD700', fontFamily: 'Orbitron', fontSize: '0.85rem', marginBottom: '8px' }}>
-                        NEXT LOCATION
-                    </p>
-                    <h2 style={{ fontSize: '1.5rem', margin: 0, color: '#fff' }}>Eco Campus Wall</h2>
-                </div>
-                <br />
-                <p style={{ marginTop: '10px', color: '#FFD700' }}>Scan the Phase 1 QR code to continue.</p>
-            </div>
-        )
     }
 
     return (
