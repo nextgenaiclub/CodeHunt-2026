@@ -29,6 +29,7 @@ export default function Phase5({ team, setTeam }) {
     const [failed, setFailed] = useState(false)
     const [failMessage, setFailMessage] = useState('')
     const [score, setScore] = useState(0)
+    const [showClue, setShowClue] = useState(false)
 
     // Fetch riddles - MUST be before any conditional returns
     useEffect(() => {
@@ -65,37 +66,37 @@ export default function Phase5({ team, setTeam }) {
             <div className="container" style={{ textAlign: 'center', padding: '60px 0' }}>
                 <div className="success-icon"><Sparkles size={60} /></div>
                 <h2 style={{ color: '#22c55e', marginBottom: '20px' }}>Phase 5 Cleared!</h2>
-                <p style={{ fontSize: '1.2rem', marginBottom: '10px' }}>
+                <p style={{ fontSize: '1.2rem', marginBottom: '30px' }}>
                     You scored {score}/{riddles.length}. Great job!
                 </p>
-                <div style={{
-                    display: 'inline-block',
-                    padding: '30px 60px',
-                    background: 'rgba(255, 215, 0, 0.1)',
-                    border: '3px solid #FFD700',
-                    borderRadius: '20px',
-                    marginBottom: '30px'
-                }}>
-                    <p style={{ color: '#FFD700', fontFamily: 'Orbitron', fontSize: '0.9rem', marginBottom: '10px' }}>
-                        NEXT LOCATION
-                    </p>
-                    <h1 style={{ fontSize: '2rem', margin: 0 }}>Basketball Court Area</h1>
-                </div>
-                <div style={{
-                    maxWidth: '500px',
-                    margin: '0 auto 30px',
-                    padding: '25px 30px',
-                    background: 'rgba(139, 92, 246, 0.1)',
-                    border: '2px solid rgba(139, 92, 246, 0.4)',
-                    borderRadius: '15px',
-                    textAlign: 'left'
-                }}>
-                    <p style={{ color: '#a78bfa', fontFamily: 'Orbitron', fontSize: '0.85rem', marginBottom: '15px', textAlign: 'center' }}>
-                        FINAL CLUE
-                    </p>
-                    <HintPoem />
-                </div>
-                <p style={{ color: '#FFD700', fontSize: '1.1rem' }}>Scan the next QR code to continue.</p>
+
+                {!showClue ? (
+                    <button
+                        onClick={() => setShowClue(true)}
+                        className="btn btn-primary btn-large"
+                        style={{ fontSize: '1.1rem', padding: '15px 40px' }}
+                    >
+                        Reveal Next Phase Clue
+                    </button>
+                ) : (
+                    <>
+                        <div style={{
+                            maxWidth: '500px',
+                            margin: '0 auto 30px',
+                            padding: '25px 30px',
+                            background: 'rgba(139, 92, 246, 0.1)',
+                            border: '2px solid rgba(139, 92, 246, 0.4)',
+                            borderRadius: '15px',
+                            textAlign: 'left'
+                        }}>
+                            <p style={{ color: '#a78bfa', fontFamily: 'Orbitron', fontSize: '0.85rem', marginBottom: '15px', textAlign: 'center' }}>
+                                FINAL CLUE
+                            </p>
+                            <HintPoem />
+                        </div>
+                        <p style={{ color: '#FFD700', fontSize: '1.1rem' }}>Solve the riddle, find the location, and scan the QR code to start Phase 6!</p>
+                    </>
+                )}
             </div>
         )
     }
@@ -134,34 +135,34 @@ export default function Phase5({ team, setTeam }) {
             <div className="container" style={{ textAlign: 'center', padding: '60px 0' }}>
                 <div className="success-icon"><Check size={60} /></div>
                 <h2 style={{ color: '#22c55e', marginBottom: '20px' }}>Phase 5 Completed!</h2>
-                <div style={{
-                    display: 'inline-block',
-                    padding: '20px 40px',
-                    background: 'rgba(255, 215, 0, 0.1)',
-                    border: '2px solid #FFD700',
-                    borderRadius: '15px',
-                    marginTop: '20px',
-                    marginBottom: '25px'
-                }}>
-                    <p style={{ color: '#FFD700', fontFamily: 'Orbitron', fontSize: '0.85rem', marginBottom: '8px' }}>
-                        NEXT LOCATION
-                    </p>
-                    <h2 style={{ fontSize: '1.5rem', margin: 0, color: '#fff' }}>Basketball Court Area</h2>
-                </div>
-                <div style={{
-                    maxWidth: '500px',
-                    margin: '0 auto',
-                    padding: '25px 30px',
-                    background: 'rgba(139, 92, 246, 0.1)',
-                    border: '2px solid rgba(139, 92, 246, 0.4)',
-                    borderRadius: '15px',
-                    textAlign: 'left'
-                }}>
-                    <p style={{ color: '#a78bfa', fontFamily: 'Orbitron', fontSize: '0.85rem', marginBottom: '15px', textAlign: 'center' }}>
-                        FINAL CLUE
-                    </p>
-                    <HintPoem />
-                </div>
+
+                {!showClue ? (
+                    <button
+                        onClick={() => setShowClue(true)}
+                        className="btn btn-primary btn-large"
+                        style={{ fontSize: '1.1rem', padding: '15px 40px' }}
+                    >
+                        Reveal Next Phase Clue
+                    </button>
+                ) : (
+                    <>
+                        <div style={{
+                            maxWidth: '500px',
+                            margin: '0 auto 30px',
+                            padding: '25px 30px',
+                            background: 'rgba(139, 92, 246, 0.1)',
+                            border: '2px solid rgba(139, 92, 246, 0.4)',
+                            borderRadius: '15px',
+                            textAlign: 'left'
+                        }}>
+                            <p style={{ color: '#a78bfa', fontFamily: 'Orbitron', fontSize: '0.85rem', marginBottom: '15px', textAlign: 'center' }}>
+                                FINAL CLUE
+                            </p>
+                            <HintPoem />
+                        </div>
+                        <p style={{ color: '#FFD700', fontSize: '1.1rem' }}>Solve the riddle, find the location, and scan the QR code to start Phase 6!</p>
+                    </>
+                )}
             </div>
         )
     }
