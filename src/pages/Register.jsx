@@ -36,16 +36,29 @@ export default function Register({ team, setTeam }) {
                 </p>
                 <div style={{
                     display: 'inline-block',
-                    padding: '20px 40px',
-                    background: 'rgba(255, 215, 0, 0.1)',
-                    border: '2px solid #FFD700',
+                    padding: '25px 40px',
+                    background: 'rgba(139, 92, 246, 0.1)',
+                    border: '2px solid rgba(139, 92, 246, 0.5)',
                     borderRadius: '15px',
-                    marginBottom: '20px'
+                    marginBottom: '20px',
+                    maxWidth: '500px',
+                    textAlign: 'left'
                 }}>
-                    <p style={{ color: '#FFD700', fontFamily: 'Orbitron', fontSize: '0.85rem', marginBottom: '8px' }}>
-                        NEXT LOCATION
+                    <p style={{ color: '#a78bfa', fontFamily: 'Orbitron', fontSize: '0.85rem', marginBottom: '15px', textAlign: 'center' }}>
+                        🧩 RIDDLE - Find Your Next Location
                     </p>
-                    <h2 style={{ fontSize: '1.5rem', margin: 0, color: '#fff' }}>Eco Campus Wall</h2>
+                    <p style={{ color: '#e2e8f0', fontStyle: 'italic', lineHeight: '1.8', marginBottom: '15px' }}>
+                        Walk past the slope, take a steady climb,<br/>
+                        Where green ideas met management in time.<br/>
+                        A wall that shows the campus name,<br/>
+                        Look near the symbol of college fame.
+                    </p>
+                    <p style={{ color: '#94a3b8', fontSize: '0.9rem', lineHeight: '1.6' }}>
+                        <strong>Hinglish:</strong> Slope cross karke thoda aage jao,<br/>
+                        Management aur eco ka combo pao.<br/>
+                        Deewar pe jahan college ka sign,<br/>
+                        Logo ke paas milega tumhara next line.
+                    </p>
                 </div>
                 <br />
                 <p style={{ marginTop: '10px', color: '#FFD700' }}>Scan the Phase 1 QR code to continue.</p>

@@ -103,16 +103,29 @@ export default function Phase3({ team, setTeam }) {
                 <h2 style={{ color: '#22c55e', marginBottom: '20px' }}>Phase 3 Completed!</h2>
                 <div style={{
                     display: 'inline-block',
-                    padding: '20px 40px',
-                    background: 'rgba(255, 215, 0, 0.1)',
-                    border: '2px solid #FFD700',
+                    padding: '25px 40px',
+                    background: 'rgba(139, 92, 246, 0.1)',
+                    border: '2px solid rgba(139, 92, 246, 0.5)',
                     borderRadius: '15px',
-                    marginTop: '20px'
+                    marginTop: '20px',
+                    maxWidth: '500px',
+                    textAlign: 'left'
                 }}>
-                    <p style={{ color: '#FFD700', fontFamily: 'Orbitron', fontSize: '0.85rem', marginBottom: '8px' }}>
-                        📍 NEXT LOCATION
+                    <p style={{ color: '#a78bfa', fontFamily: 'Orbitron', fontSize: '0.85rem', marginBottom: '15px', textAlign: 'center' }}>
+                        🧩 RIDDLE - Find Your Next Location
                     </p>
-                    <h2 style={{ fontSize: '1.5rem', margin: 0, color: '#fff' }}>Room 2101 and 2102 Labs</h2>
+                    <p style={{ color: '#e2e8f0', fontStyle: 'italic', lineHeight: '1.8', marginBottom: '15px' }}>
+                        From ground you start the digital race,<br/>
+                        Keyboards click in a focused space.<br/>
+                        Where systems run and minds compile,<br/>
+                        The lower lab hides the next file.
+                    </p>
+                    <p style={{ color: '#94a3b8', fontSize: '0.9rem', lineHeight: '1.6' }}>
+                        <strong>Hinglish:</strong> Zameen se shuru hota coding ka track,<br/>
+                        Keyboard ki awaaz, full focus mode on pack.<br/>
+                        Neeche wale lab mein dimag align,<br/>
+                        Ground floor pe milega agla sign.
+                    </p>
                 </div>
             </div>
         )
@@ -210,17 +223,30 @@ export default function Phase3({ team, setTeam }) {
                         <>
                             <div style={{
                                 display: 'inline-block',
-                                padding: '20px 40px',
-                                background: 'rgba(255, 215, 0, 0.1)',
-                                border: '2px solid #FFD700',
+                                padding: '25px 40px',
+                                background: 'rgba(139, 92, 246, 0.1)',
+                                border: '2px solid rgba(139, 92, 246, 0.5)',
                                 borderRadius: '15px',
                                 marginTop: '20px',
-                                marginBottom: '20px'
+                                marginBottom: '20px',
+                                maxWidth: '500px',
+                                textAlign: 'left'
                             }}>
-                                <p style={{ color: '#FFD700', fontFamily: 'Orbitron', fontSize: '0.85rem', marginBottom: '8px' }}>
-                                    NEXT LOCATION
+                                <p style={{ color: '#a78bfa', fontFamily: 'Orbitron', fontSize: '0.85rem', marginBottom: '15px', textAlign: 'center' }}>
+                                    🧩 RIDDLE - Find Your Next Location
                                 </p>
-                                <h2 style={{ fontSize: '1.5rem', margin: 0, color: '#fff' }}>Room 2101 and 2102 Labs</h2>
+                                <p style={{ color: '#e2e8f0', fontStyle: 'italic', lineHeight: '1.8', marginBottom: '15px' }}>
+                                    From ground you start the digital race,<br/>
+                                    Keyboards click in a focused space.<br/>
+                                    Where systems run and minds compile,<br/>
+                                    The lower lab hides the next file.
+                                </p>
+                                <p style={{ color: '#94a3b8', fontSize: '0.9rem', lineHeight: '1.6' }}>
+                                    <strong>Hinglish:</strong> Zameen se shuru hota coding ka track,<br/>
+                                    Keyboard ki awaaz, full focus mode on pack.<br/>
+                                    Neeche wale lab mein dimag align,<br/>
+                                    Ground floor pe milega agla sign.
+                                </p>
                             </div>
                             <br />
                             <p style={{ color: '#FFD700', fontSize: '1.1rem' }}>Scan the next QR code to continue.</p>

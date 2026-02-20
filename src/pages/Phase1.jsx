@@ -34,16 +34,29 @@ export default function Phase1({ team, setTeam }) {
                 <p>You've already completed this phase.</p>
                 <div style={{
                     display: 'inline-block',
-                    padding: '20px 40px',
-                    background: 'rgba(255, 215, 0, 0.1)',
-                    border: '2px solid #FFD700',
+                    padding: '25px 40px',
+                    background: 'rgba(139, 92, 246, 0.1)',
+                    border: '2px solid rgba(139, 92, 246, 0.5)',
                     borderRadius: '15px',
-                    marginTop: '20px'
+                    marginTop: '20px',
+                    maxWidth: '500px',
+                    textAlign: 'left'
                 }}>
-                    <p style={{ color: '#FFD700', fontFamily: 'Orbitron', fontSize: '0.85rem', marginBottom: '8px' }}>
-                        NEXT LOCATION
+                    <p style={{ color: '#a78bfa', fontFamily: 'Orbitron', fontSize: '0.85rem', marginBottom: '15px', textAlign: 'center' }}>
+                        🧩 RIDDLE - Find Your Next Location
                     </p>
-                    <h2 style={{ fontSize: '1.5rem', margin: 0, color: '#fff' }}>Inside the Canteen Area</h2>
+                    <p style={{ color: '#e2e8f0', fontStyle: 'italic', lineHeight: '1.8', marginBottom: '15px' }}>
+                        When hunger hits and crowds collide,<br/>
+                        The biggest food stop stands with pride.<br/>
+                        Near the number four, always alive,<br/>
+                        Plates and plans here truly thrive.
+                    </p>
+                    <p style={{ color: '#94a3b8', fontSize: '0.9rem', lineHeight: '1.6' }}>
+                        <strong>Hinglish:</strong> Jab bhookh lage aur crowd ho tight,<br/>
+                        Sabse badi canteen stays in sight.<br/>
+                        Four ke paas jo hamesha alive,<br/>
+                        Khana aur clues dono yahin survive.
+                    </p>
                 </div>
             </div>
         )
@@ -116,17 +129,30 @@ export default function Phase1({ team, setTeam }) {
                 <p>Great work, {team.teamName}!</p>
                 <div style={{
                     display: 'inline-block',
-                    padding: '20px 40px',
-                    background: 'rgba(255, 215, 0, 0.1)',
-                    border: '2px solid #FFD700',
+                    padding: '25px 40px',
+                    background: 'rgba(139, 92, 246, 0.1)',
+                    border: '2px solid rgba(139, 92, 246, 0.5)',
                     borderRadius: '15px',
                     marginTop: '20px',
-                    marginBottom: '20px'
+                    marginBottom: '20px',
+                    maxWidth: '500px',
+                    textAlign: 'left'
                 }}>
-                    <p style={{ color: '#FFD700', fontFamily: 'Orbitron', fontSize: '0.85rem', marginBottom: '8px' }}>
-                        NEXT LOCATION
+                    <p style={{ color: '#a78bfa', fontFamily: 'Orbitron', fontSize: '0.85rem', marginBottom: '15px', textAlign: 'center' }}>
+                        🧩 RIDDLE - Find Your Next Location
                     </p>
-                    <h2 style={{ fontSize: '1.5rem', margin: 0, color: '#fff' }}>Inside the Canteen Area</h2>
+                    <p style={{ color: '#e2e8f0', fontStyle: 'italic', lineHeight: '1.8', marginBottom: '15px' }}>
+                        When hunger hits and crowds collide,<br/>
+                        The biggest food stop stands with pride.<br/>
+                        Near the number four, always alive,<br/>
+                        Plates and plans here truly thrive.
+                    </p>
+                    <p style={{ color: '#94a3b8', fontSize: '0.9rem', lineHeight: '1.6' }}>
+                        <strong>Hinglish:</strong> Jab bhookh lage aur crowd ho tight,<br/>
+                        Sabse badi canteen stays in sight.<br/>
+                        Four ke paas jo hamesha alive,<br/>
+                        Khana aur clues dono yahin survive.
+                    </p>
                 </div>
                 <br />
                 <p style={{ marginTop: '10px', color: '#FFD700' }}>Scan the next QR code to continue.</p>
