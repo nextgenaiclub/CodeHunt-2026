@@ -1,9 +1,0 @@
-{
-  "projectId": "6d03bcd7-bff5-4f78-83a3-df021a3b883d",
-  "createdAt": 1770830083600,
-  "version": "1.0",
-  "startupCommands": [
-    "npm.cmd install; cd backend; npm.cmd install; cd ..; npx.cmd vite --port 5173",
-    "cd backend; node server.js"
-  ]
-}

@@ -32,3 +32,7 @@ backend/.env
 backend/firebase-credentials.json
 firebase-credentials.json
 backend/uploads/
+
+# Temp files
+tmpclaude-*
+.orchids/
