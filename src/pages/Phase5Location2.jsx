@@ -1,4 +1,4 @@
-import { MapPin } from 'lucide-react'
+import { MapPin, Sparkles } from 'lucide-react'
 
 export default function Phase5Location2() {
     return (
@@ -101,6 +101,40 @@ export default function Phase5Location2() {
                     {' '}&nbsp;&nbsp;Capture proof that you were here —<br />
                     {' '}&nbsp;&nbsp;And your victory is found.
                 </p>
+
+                {/* Secret Clues Section */}
+                <div style={{
+                    marginTop: '40px',
+                    padding: '25px',
+                    background: 'rgba(255, 215, 0, 0.05)',
+                    border: '1px dashed rgba(255, 215, 0, 0.3)',
+                    borderRadius: '15px'
+                }}>
+                    <p style={{
+                        color: '#FFD700',
+                        fontFamily: 'Orbitron, sans-serif',
+                        fontSize: '0.9rem',
+                        letterSpacing: '1px',
+                        marginBottom: '15px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '10px'
+                    }}>
+                        <Sparkles size={18} /> SECRET CLUES FOUND
+                    </p>
+                    <ul style={{
+                        color: '#e2e8f0',
+                        fontSize: '1rem',
+                        lineHeight: '1.8',
+                        paddingLeft: '20px',
+                        margin: 0
+                    }}>
+                        <li><strong>DataNest (2)</strong> is assigned to <strong>Control Flow (D)</strong></li>
+                        <li><strong>AlgoCore (1)</strong> is assigned to <strong>Data Structures (B)</strong></li>
+                        <li><strong>ByteWorks (4)</strong> is not assigned to <strong>B or D</strong></li>
+                        <li><strong>LogicFlow (3)</strong> is assigned to <strong>Algorithms (A)</strong></li>
+                    </ul>
+                </div>
             </div>
 
             {/* Footer note */}
