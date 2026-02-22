@@ -1,9 +1,6 @@
-import { useState } from 'react'
-import { MapPin, Eye, EyeOff } from 'lucide-react'
+import { MapPin } from 'lucide-react'
 
 export default function Phase5Location2() {
-    const [revealed, setRevealed] = useState(false)
-
     return (
         <div
             className="container"
@@ -87,7 +84,7 @@ export default function Phase5Location2() {
                         fontSize: '1.08rem',
                         color: '#e2e8f0',
                         fontStyle: 'italic',
-                        marginBottom: '28px'
+                        margin: 0
                     }}
                 >
                     I am the mind behind your mission,<br />
@@ -104,107 +101,6 @@ export default function Phase5Location2() {
                     {' '}&nbsp;&nbsp;Capture proof that you were here —<br />
                     {' '}&nbsp;&nbsp;And your victory is found.
                 </p>
-
-                {/* Divider */}
-                <div
-                    style={{
-                        height: '1px',
-                        background: 'rgba(139,92,246,0.3)',
-                        margin: '0 0 24px 0'
-                    }}
-                />
-
-                {/* Reveal button for Hinglish */}
-                {!revealed ? (
-                    <button
-                        onClick={() => setRevealed(true)}
-                        style={{
-                            background: 'rgba(139,92,246,0.15)',
-                            border: '1px solid rgba(139,92,246,0.4)',
-                            borderRadius: '10px',
-                            color: '#a78bfa',
-                            padding: '10px 24px',
-                            cursor: 'pointer',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '8px',
-                            fontSize: '0.9rem',
-                            fontFamily: 'inherit',
-                            transition: 'all 0.2s ease'
-                        }}
-                        onMouseEnter={e => {
-                            e.currentTarget.style.background = 'rgba(139,92,246,0.25)'
-                            e.currentTarget.style.borderColor = 'rgba(139,92,246,0.7)'
-                        }}
-                        onMouseLeave={e => {
-                            e.currentTarget.style.background = 'rgba(139,92,246,0.15)'
-                            e.currentTarget.style.borderColor = 'rgba(139,92,246,0.4)'
-                        }}
-                    >
-                        <Eye size={16} /> Show Hinglish Version
-                    </button>
-                ) : (
-                    <div>
-                        <div
-                            style={{
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                                marginBottom: '14px'
-                            }}
-                        >
-                            <span
-                                style={{
-                                    color: '#a78bfa',
-                                    fontFamily: 'Orbitron, sans-serif',
-                                    fontSize: '0.75rem',
-                                    letterSpacing: '1.5px'
-                                }}
-                            >
-                                HINGLISH VERSION
-                            </span>
-                            <button
-                                onClick={() => setRevealed(false)}
-                                style={{
-                                    background: 'none',
-                                    border: 'none',
-                                    color: '#64748b',
-                                    cursor: 'pointer',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '4px',
-                                    fontSize: '0.8rem',
-                                    padding: '4px 8px'
-                                }}
-                            >
-                                <EyeOff size={13} /> Hide
-                            </button>
-                        </div>
-                        <p
-                            style={{
-                                lineHeight: '2',
-                                fontSize: '1rem',
-                                color: '#cbd5e1',
-                                fontStyle: 'italic',
-                                margin: 0
-                            }}
-                        >
-                            Main hoon woh soch jo mission chalati hai,<br />
-                            {' '}&nbsp;&nbsp;Insan nahi, par team ko chalati hai.<br />
-                            Main <u style={{ textDecorationThickness: '2px' }}>khadi hoon</u>, pehne hain{' '}
-                            <u style={{ textDecorationThickness: '2px' }}>organizing team ke nishaan</u>,<br />
-                            {' '}&nbsp;&nbsp;Jahan ideas banate hain apna makaan.
-                            <br />
-                            <br />
-                            Dhundho mujhe jahan{' '}
-                            <u style={{ textDecorationThickness: '2px' }}>doosri chadhai</u> shuru ho,<br />
-                            {' '}&nbsp;&nbsp;
-                            <u style={{ textDecorationThickness: '2px' }}>Zameen se chhune wali manzil</u> pe aao.<br />
-                            {' '}&nbsp;&nbsp;Apni maujooodgi ka saboot pakdo —<br />
-                            {' '}&nbsp;&nbsp;Aur jeet tumhari jholi mein aao.
-                        </p>
-                    </div>
-                )}
             </div>
 
             {/* Footer note */}
