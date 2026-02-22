@@ -145,16 +145,16 @@ export default function Phase2({ team, setTeam }) {
                         🧩 RIDDLE - Find Your Next Location
                     </p>
                     <p style={{ color: '#e2e8f0', fontStyle: 'italic', lineHeight: '1.8', marginBottom: '15px' }}>
-                        Climb one level, logic gets strong,<br/>
-                        Screens glow bright where coders belong.<br/>
-                        Syntax speaks, machines align,<br/>
-                        First floor hides the next design.
+                        Where rules are read and justice taught,<br />
+                        The number seven matters more than you thought.<br />
+                        Safety stands silent, red and bright,<br />
+                        Check just behind to find your next light.
                     </p>
                     <p style={{ color: '#94a3b8', fontSize: '0.9rem', lineHeight: '1.6' }}>
-                        <strong>Hinglish:</strong> Ek floor upar, logic on fire,<br/>
-                        Screens aur code ka perfect choir.<br/>
-                        CS ka adda, focus lab divine,<br/>
-                        First floor pe milega next sign.
+                        <strong>Hinglish:</strong> Kanoon ki baatein, rules ka scene,<br />
+                        Seven ka number makes it clean.<br />
+                        Red safety guard jo corner mein khada,<br />
+                        Uske peeche hi raaz hai pada.
                     </p>
                 </div>
             </div>
@@ -244,16 +244,16 @@ export default function Phase2({ team, setTeam }) {
                             🧩 RIDDLE - Find Your Next Location
                         </p>
                         <p style={{ color: '#e2e8f0', fontStyle: 'italic', lineHeight: '1.8', marginBottom: '15px' }}>
-                            Climb one level, logic gets strong,<br/>
-                            Screens glow bright where coders belong.<br/>
-                            Syntax speaks, machines align,<br/>
-                            First floor hides the next design.
+                            Where rules are read and justice taught,<br />
+                            The number seven matters more than you thought.<br />
+                            Safety stands silent, red and bright,<br />
+                            Check just behind to find your next light.
                         </p>
                         <p style={{ color: '#94a3b8', fontSize: '0.9rem', lineHeight: '1.6' }}>
-                            <strong>Hinglish:</strong> Ek floor upar, logic on fire,<br/>
-                            Screens aur code ka perfect choir.<br/>
-                            CS ka adda, focus lab divine,<br/>
-                            First floor pe milega next sign.
+                            <strong>Hinglish:</strong> Kanoon ki baatein, rules ka scene,<br />
+                            Seven ka number makes it clean.<br />
+                            Red safety guard jo corner mein khada,<br />
+                            Uske peeche hi raaz hai pada.
                         </p>
                     </div>
                     <br />
